@@ -1,0 +1,58 @@
+---
+title: "stl lead inequity"
+format: html
+editor: visual
+---
+
+## Day 1 Activities
+
+Attach the tidyverse and janitor packages in a new code chunk
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(dplyr)
+```
+
+Read in the stl_blood_lead.csv data at stl_lead
+
+```{r}
+stl_lead <- read_csv(here::here("data",
+                                "stl_blood_lead.csv"),
+                     na = c(".")) %>% 
+  clean_names()
+```
+
+Do some basic exploration of the dataset
+
+```{r}
+skim(stl_lead)
+```
+
+In a new code chunk, from `stl_lead` create a new data frame called `stl_lead_prop` that has one additional column called `prop_white` that returns the percent of each census tract identifying as white (variable `white` in the dataset divided by variable `totalPop`, times 100). You may need to do some Googling. Hint: `dplyr::mutate(new_col = col_a / col_b)` will create a new column `new_col` that contains the value of `col_a / col_b`
+
+```{r}
+stl_lead_prop <- stl_lead %>% 
+  mutate("prop_white" = (white / total_pop) * 100)
+```
+
+Create a scatterplot
+
+```{r}
+stl_lead_plot <- ggplot(data = stl_lead_prop, aes(x = pct_elevated, y = prop_white))+
+  geom_point(size = 3,
+             alpha = 0.5)+
+  theme_minimal()+
+  labs(x = "Elevated Blood Level", y = "White")
+
+stl_lead_plot
+```
+
+Save to figs
+
+```{r}
+ggsave(plot = stl_lead_plot, here::here("figs", "stl_lead_test.png"),
+       width = 6,
+       height = 5)
+```
