@@ -49,7 +49,7 @@ stl_lead_plot <- ggplot(data = stl_lead_prop, aes(x = pct_elevated, y = prop_whi
 stl_lead_plot
 ```
 
-Save to figs
+Save to scatterplot to figs
 
 ```{r}
 ggsave(plot = stl_lead_plot, here::here("figs", "stl_lead_test.png"),
@@ -58,3 +58,21 @@ ggsave(plot = stl_lead_plot, here::here("figs", "stl_lead_test.png"),
 ```
 
 Create a histogram
+
+```{r}
+pct_elevated_plot <- ggplot(data = stl_lead_prop, aes (x = pct_elevated))+
+  geom_histogram(color = "cadetblue4",
+                 fill = "cadetblue1",
+                 bins = 15)+
+  labs (x = "Lead Blood Level", y = "Count")
+
+pct_elevated_plot
+```
+
+Save historgram to fig
+
+```{r}
+ggsave(plot = pct_elevated_plot, here::here("figs","pct_elevated_plot.png"),
+       width = 6,
+       height = 5)
+```
